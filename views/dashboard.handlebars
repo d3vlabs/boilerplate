@@ -20,16 +20,38 @@
       {{/each}}
     </div>
   {{/if}}
-  <div class="row">
-
-    <div class="col-sm-4">
-      <div class="panel">
-        <div class="panel-body">
-          <h3>Dashboard</h3>
-          <p>Welcome to dashboard</p>
-          <a href="#" role="button" class="btn btn-default">View details</a>
+  <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Dashboard</div>
+    <div class="container">
+        {{# each cequestions }}
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <strong>{{ this.questionID }}:</strong>
+               {{ this.questionText}}
+            </div>
+            <div class="col-sm-2">
+            <select id="Select1" class="form-control">
+              <option>Always</option>
+              <option>Mostly</option>
+              <option>Sometimes</option>
+              <option>Rarely</option>
+              <option>Never</option>
+            </select>
+          </div>
+          </p>
+            <div class="col-md-4">
+                <textarea class="form-control" rows="3"></textarea>
+            </div>
+          </div>
         </div>
-      </div>
+        {{/each}}
+        <br />
+        <button type="button" class="btn btn-success pull-right">Save</button>
+        
+        <button type="button" class="btn btn-primary pull-right">Next>></button>
+        <br />
     </div>
   </div>
 </div>
