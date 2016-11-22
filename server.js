@@ -11,6 +11,8 @@ var dotenv = require('dotenv');
 var exphbs = require('express-handlebars');
 var mongoose = require('mongoose');
 var passport = require('passport');
+var MongoStore = require('connect-mongo')(session);
+
 
 // Load environment variables from .env file
 dotenv.load();
@@ -19,6 +21,7 @@ dotenv.load();
 var HomeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
+var dashboardController = require('./controllers/dashboard');
 
 // Passport OAuth strategies
 require('./config/passport');
@@ -56,17 +59,26 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(methodOverride('_method'));
-app.use(session({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+//  store: new MongoStore({mongooseConnection: mongoose.Connection}),
+//  cookie: { maxAge: 180 * 60 * 1000 }
+}));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
   res.locals.user = req.user;
+  res.locals.session = req.session;
   next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', HomeController.index);
+//dashboard controller/route
+app.get('/dashboard', dashboardController.dashboardGet);
 app.get('/contact', contactController.contactGet);
 app.post('/contact', contactController.contactPost);
 app.get('/account', userController.ensureAuthenticated, userController.accountGet);
