@@ -30,6 +30,6 @@
   },
   "devDependencies": {},
   "engines": {
-    "node": "6.1.0"
+    "node": "7.1.0"
   }
 }
