@@ -5,6 +5,7 @@ var compression = require('compression');
 var methodOverride = require('method-override');
 var session = require('express-session');
 var flash = require('express-flash');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var dotenv = require('dotenv');
@@ -12,16 +13,19 @@ var exphbs = require('express-handlebars');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var MongoStore = require('connect-mongo')(session);
-
+var csrf = require('csurf');
 
 // Load environment variables from .env file
 dotenv.load();
+
+var csrfProtection = csrf({ cookie: true });
 
 // Controllers
 var HomeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
 var dashboardController = require('./controllers/dashboard');
+var cecompanyprofileController = require('./controllers/cecompanyprofile')
 
 // Passport OAuth strategies
 require('./config/passport');
@@ -55,16 +59,17 @@ app.set('view engine', 'handlebars');
 app.set('port', process.env.PORT || 3000);
 app.use(compression());
 app.use(logger('dev'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(methodOverride('_method'));
 app.use(session({
   secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
-//  store: new MongoStore({mongooseConnection: mongoose.Connection}),
-//  cookie: { maxAge: 180 * 60 * 1000 }
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({mongooseConnection: mongoose.connection}),
+  cookie: { maxAge: 180 * 60 * 1000 }
 }));
 app.use(flash());
 app.use(passport.initialize());
@@ -78,7 +83,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', HomeController.index);
 //dashboard controller/route
-app.get('/dashboard', dashboardController.dashboardGet);
+app.get('/dashboard', dashboardController.ensureAuthenticated, dashboardController.dashboardGet);
+app.get('/companyprofile', cecompanyprofileController.ensureAuthenticated, cecompanyprofileController.cecompanyprofileGet)
 app.get('/contact', contactController.contactGet);
 app.post('/contact', contactController.contactPost);
 app.get('/account', userController.ensureAuthenticated, userController.accountGet);

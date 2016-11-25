@@ -1,7 +1,7 @@
 /**
- * GET /dashboard
+ * GET /cecompanyprofile
 */
-var CEQuestion = require('../models/CEQuestion');
+
 
 exports.ensureAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {
@@ -11,6 +11,14 @@ exports.ensureAuthenticated = function(req, res, next) {
   }
 };
 
+exports.cecompanyprofileGet = function(req, res) {
+  res.render('cecompanyprofile', {
+    title: 'Cyber Essentials Company Profile'
+  });
+};
+
+/**
+var CEQuestion = require('../models/CEQuestion');
 
 exports.dashboardGet = function(req, res) {
 //  if (req.user) {
@@ -25,3 +33,5 @@ exports.dashboardGet = function(req, res) {
     res.render('dashboard', {title: 'Dashboard', cequestions: docs });
   });
 };
+
+*/

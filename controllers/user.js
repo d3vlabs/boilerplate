@@ -4,6 +4,8 @@ var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../models/User');
 
+
+
 /**
  * Login required middleware
  */
