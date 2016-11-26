@@ -1,8 +1,21 @@
+var express = require('express');
+var Product = require('../models/product');
+
 /**
  * GET /
  */
+
 exports.index = function(req, res) {
-  res.render('home', {
-    title: 'Home'
+  Product.find(function(err, docs) {
+        var productChunks = [];
+        var chunkSize = 3;
+
+        for (var i=0; i < docs.length; i += chunkSize) {
+          productChunks.push(docs.slice(i, i + chunkSize))
+        }
+
+        res.render('home', {
+          title: 'Home', products: productChunks
+        });
   });
 };

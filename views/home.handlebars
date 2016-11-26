@@ -1,3 +1,5 @@
+
+
 <div class="container-fluid">
   {{#if messages.success}}
     <div role="alert" class="alert alert-success">
@@ -22,16 +24,25 @@
   {{/if}}
   <div class="row">
 
-    <div class="col-sm-4">
-      <div class="panel">
-        <div class="panel-body">
-          <h3>Heading</h3>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-            condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.
-            Donec sed odio dui.</p>
-          <a href="#" role="button" class="btn btn-default">View details</a>
-        </div>
+    {{# each products }}
+      <div class="row">
+        {{# each this }}
+          <div class="col-sm-4 col-md-4">
+            <div class="thumbnail">
+              <img src="{{ this.imagePath }}" alt="..." class="img-responsive qtr">
+                <div class="caption">
+                  <h3>{{ this.title }}</h3>
+                    <p class="description">{{ this.description }}</p>
+                    <div class="clearfix">
+                      <div class="price pull-left"><strike>${{ this.prevprice }}</strike></div>
+                      <div class="price pull-left"> £{{ this.price }}</div>
+                      <a href="#" class="btn btn-success pull-right" role="button">Buy</a>
+                    </div>
+                </div>
+            </div>
+          </div>
+        {{/each}}
       </div>
-    </div>
+    {{/each}}
   </div>
 </div>

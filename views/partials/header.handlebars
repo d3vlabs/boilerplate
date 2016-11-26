@@ -1,69 +1,65 @@
-<nav class="navbar navbar-default navbar-static-top">
-  <div class="container">
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
     {{#if user}}
     <div class="navbar-header">
-      <button type="button" data-toggle="collapse" data-target="#navbar" class="navbar-toggle collapsed">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/dashboard" class="navbar-brand">ComplianceIn</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li class="{{#ifeq title 'Home'}}active{{/ifeq}}"><a href="/dashboard">Home</a></li>
-        <li class="{{#ifeq title 'Contact'}}active{{/ifeq}}"><a href="/contact">Contact</a></li>
+
+      <a class="navbar-brand" href="#"><span>Compliance</span>In</a>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
+      <ul class="user-menu">
+        <li class="dropdown pull-right">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {{#if user.name}}
+              {{user.name}}
+            {{else}}
+              {{user.email}}
+            {{/if}}
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/account"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+            <li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+            <li><a href="/logout"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+          </ul>
+        </li>
       </ul>
-    <ul class="nav navbar-nav navbar-right">
-
-    <li class="nav navbar-nav">
-      <a href="#" class="glyphicon glyphicon-shopping-cart"></a>
-    </li>
-      <li class="dropdown">
-        <a href="#" data-toggle="dropdown" class="navbar-avatar dropdown-toggle">
-          {{#if user.picture}}
-            <img src="{{user.picture}}">
-          {{else}}
-            <img src="{{user.gravatar}}">
-          {{/if}}
-          {{#if user.name}}
-            {{user.name}}
-          {{else}}
-            {{user.email}}
-          {{/if}}
-          <i class="caret"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="/account">My Account</a></li>
-          <li class="divider"></li>
-          <li><a href="/logout">Logout</a></li>
-        </ul>
-      </li>
-
-    {{else}}
-    <div class="navbar-header">
-      <button type="button" data-toggle="collapse" data-target="#navbar" class="navbar-toggle collapsed">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a href="/" class="navbar-brand">ComplianceIn</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li class="{{#ifeq title 'Home'}}active{{/ifeq}}"><a href="/">Home</a></li>
-        <li class="{{#ifeq title 'Contact'}}active{{/ifeq}}"><a href="/contact">Contact</a></li>
-      </ul>
-    <ul class="nav navbar-nav navbar-right">
-
-      <li class="{{#ifeq title 'Log in'}}active{{/ifeq}}"><a href="/login">Log in</a></li>
-      <li class="{{#ifeq title 'Sign up'}}active{{/ifeq}}"><a href="/signup">Sign up</a></li>
-
     </ul>
     </div>
 
-    {{/if}}
-  </div>
-</nav>
+    {{ else }}
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <a class="navbar-brand" href="#"><span>Compliance</span>In</a>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
+            <li class="{{#ifeq title 'Log in'}}active{{/ifeq}}"><a href="/login">Log in</a></li>
+            <li class="{{#ifeq title 'Sign up'}}active{{/ifeq}}"><a href="/signup">Sign up</a></li>
+
+          </ul>
+        </div>
+
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    {{/ if}}
+ </div>
+ </nav>
