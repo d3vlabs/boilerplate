@@ -3,6 +3,8 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../models/User');
+var Product = require('../models/product');
+var Cart = require('../models/Cart');
 
 
 
@@ -20,6 +22,39 @@ exports.ensureAuthenticated = function(req, res, next) {
 /**
  * GET /login
  */
+
+exports.shoppingcartaddGet = function(req, res, next) {
+  var productID = req.params.id;
+  console.log(req.params.id);
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+  console.log(req.session.cart);
+  Product.findById(productID, function(err, product){
+    if (err){
+      return res.redirect('/');
+    }
+    cart.add(product, product.id);
+    req.session.cart = cart;
+    console.log(req.session.cart);
+    res.redirect('/');
+  });
+};
+
+exports.shoppingcartGet = function(req, res, next) {
+  if(!req.session.cart) {
+    return res.render('shoppingcart', {products: null});
+  }
+  var cart = new Cart(req.session.cart);
+  res.render('shoppingcart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
+};
+
+exports.checkoutGet = function(req, res, next) {
+  if (!req.session.cart) {
+    return res.redirect('/shoppingcart');
+  }
+  var cart = new Cart(req.session.cart);
+  res.render('checkout', {total: cart.totalPrice});
+};
+
 exports.loginGet = function(req, res) {
   if (req.user) {
     return res.redirect('/');
