@@ -6,6 +6,7 @@ var Product = require('../models/product');
  */
 
 exports.index = function(req, res) {
+  var successMsg = req.flash('success')[0];
   Product.find(function(err, docs) {
         var productChunks = [];
         var chunkSize = 3;
@@ -15,7 +16,7 @@ exports.index = function(req, res) {
         }
 
         res.render('home', {
-          title: 'Home', products: productChunks
+          title: 'Home', products: productChunks, successMsg: successMsg, noMessages: !successMsg 
         });
   });
 };

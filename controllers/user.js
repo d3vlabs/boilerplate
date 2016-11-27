@@ -6,8 +6,6 @@ var User = require('../models/User');
 var Product = require('../models/product');
 var Cart = require('../models/Cart');
 
-
-
 /**
  * Login required middleware
  */
@@ -52,7 +50,41 @@ exports.checkoutGet = function(req, res, next) {
     return res.redirect('/shoppingcart');
   }
   var cart = new Cart(req.session.cart);
-  res.render('checkout', {total: cart.totalPrice});
+  var errMsg = req.flash('error')[0];
+  res.render('checkout', {total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
+};
+
+exports.checkoutPost = function(req, res, next) {
+  if (!req.session.cart) {
+    return res.redirect('/shoppingcart');
+  }
+  var cart = new Cart(req.session.cart);
+
+    // Set your secret key: remember to change this to your live secret key in production
+  // See your keys here: https://dashboard.stripe.com/account/apikeys
+  var stripe = require("stripe")("sk_test_TBRgwdhWA1MMgLTrHIRVvWyv");
+
+  // Get the credit card details submitted by the form
+  var token = req.body.stripeToken; // Using Express
+
+  // Create a charge: this will charge the user's card
+  var charge = stripe.charges.create({
+    amount: cart.totalPrice * 100, // Amount in cents
+    currency: "gbp",
+    source: token,
+    description: "Test charge"
+  }, function(err, charge) {
+    if (err && err.type === 'StripeCardError') {
+      // The card has been declined
+    }
+    if (err) {
+      req.flash('error', err.message);
+      return res.redirect('/checkout');
+    }
+    req.flash('success', 'Successfully bought product!');
+    req.session.cart = null;
+    res.redirect('/');
+  });
 };
 
 exports.loginGet = function(req, res) {

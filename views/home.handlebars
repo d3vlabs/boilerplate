@@ -22,8 +22,15 @@
       {{/each}}
     </div>
   {{/if}}
-  <div class="row">
+<div class="row">
+  <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+    <div id="success" class="alert alert-success" {{#if noMessages}}hidden{{/if}}>
+      {{ successMsg}}
+    </div>
+  </div>
+</div>
 
+  <div class="row">
     {{# each products }}
       <div class="row">
         {{# each this }}
@@ -36,7 +43,7 @@
                     <div class="clearfix">
                       <div class="price pull-left"><strike>£{{ this.prevprice }}</strike></div>
                       <div class="price pull-left"> £{{ this.price }}</div>
-                      <a href="/checkout/{{this._id}}" class="btn btn-success pull-right" role="button">Buy</a>
+                      <a href="/shoppingcart/{{this._id}}" class="btn btn-success pull-right" role="button">Buy</a>
                     </div>
                 </div>
             </div>

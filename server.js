@@ -99,6 +99,7 @@ app.post('/forgot', userController.forgotPost);
 app.get('/shoppingcart/:id', userController.shoppingcartaddGet);
 app.get('/shoppingcart', userController.shoppingcartGet);
 app.get('/checkout', userController.checkoutGet);
+app.post('/checkout', userController.checkoutPost);
 app.get('/reset/:token', userController.resetGet);
 app.post('/reset/:token', userController.resetPost);
 app.get('/logout', userController.logout);
